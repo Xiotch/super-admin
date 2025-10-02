@@ -1,0 +1,7 @@
+/* Minimal starter – customize later */
+:root { --brand: #6c5ce7; }
+body { background:#f7f7fb; }
+.navbar-brand { font-weight:700; letter-spacing:.4px; }
+.card { border:0; box-shadow: 0 6px 20px rgba(0,0,0,.06); }
+.btn-brand { background:var(--brand); color:#fff; }
+.btn-brand:hover { opacity:.9; color:#fff; }

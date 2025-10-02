@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Create License • Super Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #e74c3c;
+      --accent-color: #3498db;
+      --light-bg: #f8f9fa;
+      --dark-text: #2d3436;
+      --light-text: #636e72;
+      --card-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+      --transition: all 0.3s ease;
+    }
+    
+    body {
+      background-color: var(--light-bg);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      padding-top: 20px;
+      padding-bottom: 40px;
+    }
+    
+    .navbar {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+      padding: 0.75rem 0;
+      margin-bottom: 2rem;
+    }
+    
+    .navbar-brand {
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    
+    .page-heading {
+      padding: 1.5rem 0;
+      margin-bottom: 1.5rem;
+    }
+    
+    .page-heading h1 {
+      font-weight: 700;
+      color: var(--dark-text);
+      margin: 0;
+    }
+    
+    .card {
+      border: none;
+      border-radius: 0.5rem;
+      box-shadow: var(--card-shadow);
+      transition: var(--transition);
+      margin-bottom: 1.5rem;
+    }
+    
+    .card-header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      color: white;
+      border-bottom: none;
+      padding: 1rem 1.5rem;
+      font-weight: 600;
+      border-radius: 0.5rem 0.5rem 0 0 !important;
+    }
+    
+    .card-body {
+      padding: 2rem;
+    }
+    
+    .form-label {
+      font-weight: 500;
+      color: var(--dark-text);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .form-label i {
+      margin-right: 10px;
+      color: var(--secondary-color);
+    }
+    
+    .form-control {
+      padding: 12px 16px;
+      border-radius: 0.35rem;
+      border: 1px solid #ddd;
+      transition: var(--transition);
+    }
+    
+    .form-control:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+    }
+    
+    .input-group-text {
+      background: white;
+      border-radius: 0 0.35rem 0.35rem 0;
+    }
+    
+    .btn {
+      border-radius: 0.35rem;
+      font-weight: 500;
+      padding: 0.75rem 1.5rem;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .btn i {
+      margin-right: 0.5rem;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      border: none;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    .alert {
+      border: none;
+      border-radius: 0.5rem;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .alert-danger {
+      background-color: rgba(231, 74, 59, 0.15);
+      color: #c0392b;
+    }
+    
+    .alert-success {
+      background-color: rgba(28, 200, 138, 0.15);
+      color: #27ae60;
+    }
+    
+    .alert-warning {
+      background-color: rgba(246, 194, 62, 0.15);
+      color: #d35400;
+    }
+    
+    .alert-info {
+      background-color: rgba(54, 185, 204, 0.15);
+      color: #2980b9;
+    }
+    
+    #logoPreview {
+      max-width: 120px;
+      max-height: 120px;
+      margin-top: 10px;
+      border-radius: 8px;
+      display: none;
+      object-fit: contain;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      border: 1px solid #e3e6f0;
+    }
+    
+    .logo-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #6c757d;
+      padding: 20px;
+      border: 2px dashed #dee2e6;
+      border-radius: 8px;
+      margin-top: 10px;
+      min-height: 150px;
+    }
+    
+    .logo-placeholder i {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+    
+    .loading-spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-left: 10px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .form-section {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #e3e6f0;
+    }
+    
+    .form-section-title {
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .form-section-title i {
+      margin-right: 0.5rem;
+      color: var(--secondary-color);
+    }
+    
+    .progress {
+      height: 8px;
+      margin-top: 10px;
+      display: none;
+    }
+    
+    /* Animation for form elements */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .form-group {
+      animation: fadeIn 0.5s ease forwards;
+    }
+    
+    .form-group:nth-child(1) { animation-delay: 0.1s; }
+    .form-group:nth-child(2) { animation-delay: 0.2s; }
+    .form-group:nth-child(3) { animation-delay: 0.3s; }
+    .form-group:nth-child(4) { animation-delay: 0.4s; }
+    .form-group:nth-child(5) { animation-delay: 0.5s; }
+    .form-group:nth-child(6) { animation-delay: 0.6s; }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .card-body {
+        padding: 1.5rem;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .container {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+      
+      .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+      }
+      
+      .button-group {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand navbar-dark">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">
+        <i class="fas fa-utensils me-2"></i>Digital Menu Admin
+      </a>
+    </div>
+  </nav>
+
+  <div class="container py-2" style="max-width:900px;">
+    <!-- Page Heading -->
+    <div class="page-heading">
+      <h1><i class="fas fa-plus-circle me-2"></i>Create License</h1>
+    </div>
+
+    <!-- Alert -->
+    <div id="alert" class="alert d-none"></div>
+
+    <!-- Card -->
+    <div class="card shadow">
+      <div class="card-header">
+        <h6 class="m-0"><i class="fas fa-store me-2"></i>Restaurant Information</h6>
+      </div>
+      <div class="card-body">
+        <div class="form-section">
+          <h5 class="form-section-title"><i class="fas fa-info-circle"></i>Basic Details</h5>
+          <div class="row g-3">
+            <div class="col-md-6 form-group">
+              <label for="name" class="form-label"><i class="fas fa-signature"></i>Outlet *</label>
+              <input id="name" class="form-control" placeholder="Cafe Aroma" required>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="subdomain" class="form-label"><i class="fas fa-globe"></i>Subdomain (unique) *</label>
+              <div class="input-group">
+                <input id="subdomain" class="form-control" placeholder="cafearoma" required>
+                <span class="input-group-text">.yourdomain.com</span>
+              </div>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="phone" class="form-label"><i class="fas fa-phone"></i>Phone Number *</label>
+              <input id="phone" type="tel" class="form-control" placeholder="+91 9145592101" required>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="license_expiry" class="form-label"><i class="fas fa-calendar-alt"></i>License Expiry *</label>
+              <input id="license_expiry" type="date" class="form-control" required>
+            </div>
+            <div class="col-12 form-group">
+              <label for="address" class="form-label"><i class="fas fa-map-marker-alt"></i>Address (optional)</label>
+              <input id="address" class="form-control" placeholder="Street, City">
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-section">
+          <h5 class="form-section-title"><i class="fas fa-user-circle"></i>Owner Account</h5>
+          <div class="row g-3">
+            <div class="col-md-6 form-group">
+              <label for="owner_email" class="form-label"><i class="fas fa-envelope"></i>Owner Email *</label>
+              <input id="owner_email" type="email" class="form-control" placeholder="owner@cafe.com" required>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="owner_password" class="form-label"><i class="fas fa-lock"></i>Owner Password *</label>
+              <input id="owner_password" type="password" class="form-control" placeholder="Min 6 characters" required minlength="6">
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-section">
+          <h5 class="form-section-title"><i class="fas fa-image"></i>Restaurant Logo</h5>
+          <div class="row g-3">
+            <div class="col-12 form-group">
+              <label for="logo" class="form-label"><i class="fas fa-upload"></i>Upload Logo</label>
+              <input id="logo" type="file" accept="image/*" class="form-control" />
+              <small class="text-muted">Max 2MB (JPEG, PNG, GIF)</small>
+              
+              <div id="logoPreviewContainer">
+                <div id="logoPlaceholder" class="logo-placeholder">
+                  <i class="fas fa-image"></i>
+                  <p class="text-muted m-0">Logo preview will appear here</p>
+                </div>
+                <img id="logoPreview" alt="Logo Preview" />
+              </div>
+              
+              <div id="uploadProgress" class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group mt-4 button-group">
+          <button id="save" class="btn btn-primary">
+            <i class="fas fa-save"></i>Create Restaurant
+            <span id="spinner" class="loading-spinner"></span>
+          </button>
+          <a href="./index.html" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i>Back to Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { 
+        getAuth, 
+        onAuthStateChanged, 
+        createUserWithEmailAndPassword, 
+        signOut 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { 
+        getFirestore, 
+        doc, 
+        getDoc, 
+        runTransaction, 
+        serverTimestamp, 
+        setDoc 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    // Firebase Config
+    const firebaseConfig = {
+        apiKey: "AIzaSyDhIAwkU0YTIPqHCnZaS8q-yyDCP8CktL0",
+        authDomain: "tecxua-a22c9.firebaseapp.com",
+        projectId: "tecxua-a22c9",
+        storageBucket: "tecxua-a22c9.appspot.com",
+        messagingSenderId: "242362635527",
+        appId: "1:242362635527:web:179a57cf5a43bf8d77e1a2",
+        measurementId: "G-VXJR3QW5J3"
+    };
+
+    // Cloudinary Configuration
+    const CLOUDINARY_CONFIG = {
+      cloudName: 'dilwgelll',
+      uploadPreset: 'item_images'
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Secondary app for owner creation
+    const secondaryApp = initializeApp(firebaseConfig, "Secondary");
+    const secondaryAuth = getAuth(secondaryApp);
+
+    // UI Elements
+    const alertEl = document.getElementById('alert');
+    const saveBtn = document.getElementById('save');
+    const spinner = document.getElementById('spinner');
+    const logoPreview = document.getElementById('logoPreview');
+    const logoPlaceholder = document.getElementById('logoPlaceholder');
+    const uploadProgress = document.getElementById('uploadProgress');
+    const progressBar = uploadProgress.querySelector('.progress-bar');
+
+    // UI Helpers
+    function showAlert(type, msg) {
+        alertEl.innerHTML = `
+            <div class="d-flex align-items-center">
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : 
+                                type === 'danger' ? 'fa-exclamation-triangle' : 
+                                type === 'warning' ? 'fa-exclamation-circle' : 
+                                'fa-info-circle'} me-2"></i>
+                ${msg}
+            </div>
+        `;
+        alertEl.className = `alert alert-${type}`;
+        alertEl.classList.remove('d-none');
+        window.scrollTo({ top: 0 });
+    }
+
+    function toggleLoading(isLoading) {
+        saveBtn.disabled = isLoading;
+        spinner.style.display = isLoading ? 'inline-block' : 'none';
+        if (isLoading) {
+            saveBtn.querySelector('i').className = 'fas fa-spinner fa-spin';
+        } else {
+            saveBtn.querySelector('i').className = 'fas fa-save';
+        }
+    }
+
+    function updateProgress(percent) {
+        uploadProgress.style.display = 'block';
+        progressBar.style.width = `${percent}%`;
+        progressBar.setAttribute('aria-valuenow', percent);
+        progressBar.textContent = `${percent}%`;
+    }
+
+    // Cloudinary Upload Function
+    async function uploadToCloudinary(file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
+      formData.append('folder', 'restaurant_logos');
+      formData.append('tags', 'logo,restaurant');
+      
+      try {
+        const response = await fetch(
+          `https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/image/upload`,
+          {
+            method: 'POST',
+            body: formData
+          }
+        );
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Upload failed with status ${response.status}: ${errorText}`);
+        }
+        
+        const data = await response.json();
+        return data.secure_url;
+      } catch (error) {
+        console.error("Error uploading to Cloudinary:", error);
+        throw error;
+      }
+    }
+
+    // Logo preview handling
+    const logoInput = document.getElementById('logo');
+    logoInput.addEventListener('change', () => {
+        const file = logoInput.files[0];
+        if (file) {
+            // Validate file
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            const maxSize = 2 * 1024 * 1024; // 2MB
+            
+            if (!validTypes.includes(file.type)) {
+                showAlert('warning', 'Please upload a JPEG, PNG, or GIF image.');
+                logoInput.value = '';
+                return;
+            }
+            
+            if (file.size > maxSize) {
+                showAlert('warning', 'Image must be less than 2MB.');
+                logoInput.value = '';
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = e => {
+                logoPreview.src = e.target.result;
+                logoPreview.style.display = 'block';
+                logoPlaceholder.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            logoPreview.style.display = 'none';
+            logoPlaceholder.style.display = 'flex';
+        }
+    });
+
+    // Set default license expiry to 30 days from now
+    const licenseExpiryField = document.getElementById('license_expiry');
+    const thirtyDaysFromNow = new Date();
+    thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
+    licenseExpiryField.value = thirtyDaysFromNow.toISOString().split('T')[0];
+
+    // Superadmin Check
+    let isSuperAdmin = false;
+    onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+            location.href = './login.html';
+            return;
+        }
+        
+        try {
+            const roleDoc = await getDoc(doc(db, "roles", user.uid));
+            if (!roleDoc.exists() || roleDoc.data().role !== 'superadmin') {
+                location.href = './login.html';
+            } else {
+                isSuperAdmin = true;
+            }
+        } catch (error) {
+            console.error("Error checking admin status:", error);
+            location.href = './login.html';
+        }
+    });
+
+    // Save Restaurant
+    document.getElementById('save').addEventListener('click', async () => {
+        if (!isSuperAdmin) {
+            showAlert('danger', 'Superadmin not authenticated.');
+            return;
+        }
+
+        // Validate form
+        const name = document.getElementById('name').value.trim();
+        const subdomain = document.getElementById('subdomain').value.trim().toLowerCase();
+        const ownerEmail = document.getElementById('owner_email').value.trim();
+        const ownerPassword = document.getElementById('owner_password').value;
+        const licenseExpiry = document.getElementById('license_expiry').value;
+        const address = document.getElementById('address').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+
+        if (!name || !subdomain || !ownerEmail || !ownerPassword || !licenseExpiry || !phone) {
+            showAlert('warning', 'Please fill all required fields.');
+            return;
+        }
+        
+        if (ownerPassword.length < 6) {
+            showAlert('warning', 'Password must be at least 6 characters.');
+            return;
+        }
+
+        // Validate subdomain format
+        if (!/^[a-z0-9-]+$/.test(subdomain)) {
+            showAlert('warning', 'Subdomain can only contain lowercase letters, numbers, and hyphens.');
+            return;
+        }
+
+        toggleLoading(true);
+        
+        try {
+            // 1. Check if subdomain exists
+            const restaurantRef = doc(db, "restaurants", subdomain);
+            const existingRestaurant = await getDoc(restaurantRef);
+            if (existingRestaurant.exists()) {
+                showAlert('danger', 'Subdomain already taken.');
+                toggleLoading(false);
+                return;
+            }
+
+            // 2. Create owner account (using secondary auth)
+            let ownerUID;
+            try {
+                const ownerCred = await createUserWithEmailAndPassword(secondaryAuth, ownerEmail, ownerPassword);
+                ownerUID = ownerCred.user.uid;
+                
+                // Create role document for the owner
+                await setDoc(doc(db, "roles", ownerUID), {
+                    role: "restaurant_owner",
+                    restaurant_id: subdomain
+                });
+                
+                await signOut(secondaryAuth);
+            } catch (err) {
+                toggleLoading(false);
+                if (err.code === "auth/email-already-in-use") {
+                    showAlert('danger', 'Owner email already in use.');
+                } else if (err.code === "auth/invalid-email") {
+                    showAlert('danger', 'Invalid email format.');
+                } else {
+                    showAlert('danger', 'Error creating owner account: ' + err.message);
+                }
+                return;
+            }
+
+            // 3. Upload logo to Cloudinary if exists
+            let logoUrl = '';
+            const logoFile = logoInput.files[0];
+            if (logoFile) {
+                try {
+                    uploadProgress.style.display = 'block';
+                    updateProgress(0);
+                    
+                    // Upload to Cloudinary
+                    logoUrl = await uploadToCloudinary(logoFile);
+                    
+                    uploadProgress.style.display = 'none';
+                    console.log("Logo uploaded to Cloudinary:", logoUrl);
+                } catch (uploadError) {
+                    console.error("Error uploading logo to Cloudinary:", uploadError);
+                    showAlert('warning', 'Logo upload failed, but restaurant was created.');
+                    uploadProgress.style.display = 'none';
+                }
+            }
+
+            // 4. Run transaction (counter + restaurant creation)
+            await runTransaction(db, async (transaction) => {
+                // Get or initialize counter
+                const counterRef = doc(db, "counters", "restaurant");
+                const counterSnap = await transaction.get(counterRef);
+                const currentCount = counterSnap.exists() ? counterSnap.data().count + 1 : 1;
+
+                // Generate client ID
+                const clientId = `CLIENT${currentCount.toString().padStart(2, "0")}`;
+
+                // Update counter
+                transaction.set(counterRef, { count: currentCount }, { merge: true });
+
+                // Create restaurant
+                transaction.set(restaurantRef, {
+                    client_id: clientId,
+                    name,
+                    subdomain,
+                    phone,
+                    owner_email: ownerEmail,
+                    owner_uid: ownerUID,
+                    license_expiry: licenseExpiry,
+                    status: "active",
+                    address: address || null,
+                    logoUrl: logoUrl || null,
+                    created_at: serverTimestamp(),
+                    updated_at: serverTimestamp()
+                });
+            });
+
+            showAlert('success', 'Restaurant created successfully! Redirecting...');
+            setTimeout(() => location.href = "./index.html", 1500);
+        } catch (err) {
+            console.error("Error creating restaurant:", err);
+            showAlert('danger', err.message || "Failed to create restaurant.");
+        } finally {
+            toggleLoading(false);
+            uploadProgress.style.display = 'none';
+        }
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
