@@ -324,7 +324,7 @@
         return;
       }
 // Redirect if superadmin
-const superAdminPath = '/super-admin/';
+const superAdminPath = '/super-admin/main/';
 window.location.href = superAdminPath;
 } catch (e) {
   showError(e.message);
@@ -340,7 +340,7 @@ onAuthStateChanged(auth, async (user) => {
   if (user) {
     const roleDoc = await getDoc(doc(db, "roles", user.uid));
     if (roleDoc.exists() && roleDoc.data().role === "superadmin") {
-      const superAdminPath = '/super-admin/';
+      const superAdminPath = '/super-admin/main/';
       window.location.href = superAdminPath;
     }
   }
