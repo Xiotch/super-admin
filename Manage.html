@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Digital Menu • Super Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" type="image/png" href="/assets/images/XDiGi Favicon1.png"/>
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #e74c3c;
+      --accent-color: #3498db;
+      --success-color: #1cc88a;
+      --danger-color: #e74a3b;
+      --warning-color: #f6c23e;
+      --info-color: #36b9cc;
+      --light-bg: #f8f9fa;
+      --dark-text: #2d3436;
+      --light-text: #636e72;
+      --card-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+      --transition: all 0.3s ease;
+    }
+    
+    body {
+      background-color: var(--light-bg);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+    }
+    
+    .navbar {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+      padding: 0.75rem 0;
+    }
+    
+    .navbar-brand {
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    
+    .card {
+      border: none;
+      border-radius: 0.5rem;
+      box-shadow: var(--card-shadow);
+      transition: var(--transition);
+      margin-bottom: 1.5rem;
+    }
+    
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0.5rem 2rem rgba(58, 59, 69, 0.15);
+    }
+    
+    .card-header {
+      background: white;
+      border-bottom: 1px solid #e3e6f0;
+      padding: 1rem 1.5rem;
+      font-weight: 600;
+      color: var(--dark-text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .card-header h6 {
+      margin: 0;
+      font-weight: 700;
+    }
+    
+    .card-body {
+      padding: 1.5rem;
+    }
+    
+    .table-responsive {
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+    
+    .table thead {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      color: white;
+    }
+    
+    .table th {
+      border: none;
+      padding: 1rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .table td {
+      padding: 1rem;
+      vertical-align: middle;
+      border-top: 1px solid #e3e6f0;
+      color: var(--dark-text);
+    }
+    
+    .badge {
+      font-weight: 600;
+      padding: 0.5em 0.8em;
+      font-size: 0.75em;
+      border-radius: 0.25rem;
+    }
+    
+    .btn {
+      border-radius: 0.35rem;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .btn i {
+      margin-right: 0.5rem;
+    }
+    
+    .btn-sm {
+      padding: 0.35rem 0.75rem;
+      font-size: 0.875rem;
+    }
+    
+    .btn-outline-light:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .loading-spinner {
+      display: inline-block;
+      width: 2rem;
+      height: 2rem;
+      vertical-align: text-bottom;
+      border: 0.25em solid currentColor;
+      border-right-color: transparent;
+      border-radius: 50%;
+      animation: spinner-border 0.75s linear infinite;
+    }
+    
+    @keyframes spinner-border {
+      to { transform: rotate(360deg); }
+    }
+    
+    .alert {
+      border: none;
+      border-radius: 0.5rem;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .alert-danger {
+      background-color: rgba(231, 74, 59, 0.15);
+      color: #c0392b;
+    }
+    
+    .alert-success {
+      background-color: rgba(28, 200, 138, 0.15);
+      color: #27ae60;
+    }
+    
+    .alert-warning {
+      background-color: rgba(246, 194, 62, 0.15);
+      color: #d35400;
+    }
+    
+    .alert-info {
+      background-color: rgba(54, 185, 204, 0.15);
+      color: #2980b9;
+    }
+    
+    .page-heading {
+      padding: 1.5rem 0;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid #e3e6f0;
+    }
+    
+    .page-heading h1 {
+      font-weight: 700;
+      color: var(--dark-text);
+      margin: 0;
+    }
+    
+    .restaurant-avatar {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      margin-right: 0.75rem;
+      flex-shrink: 0;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    /* Status indicator for license expiry */
+    .license-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .status-indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    
+    .status-valid {
+      background-color: var(--success-color);
+    }
+    
+    .status-expired {
+      background-color: var(--danger-color);
+    }
+    
+    /* Animation for table rows */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    tbody tr {
+      animation: fadeIn 0.3s ease forwards;
+    }
+    
+    tbody tr:nth-child(1) { animation-delay: 0.05s; }
+    tbody tr:nth-child(2) { animation-delay: 0.1s; }
+    tbody tr:nth-child(3) { animation-delay: 0.15s; }
+    tbody tr:nth-child(4) { animation-delay: 0.2s; }
+    tbody tr:nth-child(5) { animation-delay: 0.25s; }
+    tbody tr:nth-child(n+6) { animation-delay: 0.3s; }
+    
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+      .table-responsive {
+        overflow-x: auto;
+      }
+      
+      .action-buttons {
+        flex-wrap: wrap;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      
+      .navbar-nav {
+        flex-direction: row;
+        gap: 0.5rem;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .container {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+      
+      .table td, .table th {
+        padding: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand navbar-dark mb-4">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">
+        <i class="bi bi-menu-button-wide me-2"></i>Digital Menu Admin
+      </a>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a href="./add-restaurant.html" class="btn btn-outline-light me-2">
+            <i class="bi bi-plus-lg me-1"></i>Create License
+          </a>
+        </li>
+        <li class="nav-item">
+          <button id="logoutBtn" class="btn btn-light">
+            <i class="bi bi-box-arrow-right me-1"></i>Logout
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container py-2" style="max-width:1400px;">
+    <!-- Page Heading -->
+    <div class="page-heading">
+      <h1><i class="bi bi-shop me-2"></i>License Management</h1>
+    </div>
+
+    <!-- Alert -->
+    <div id="alert" class="alert d-none"></div>
+
+    <!-- Card -->
+    <div class="card shadow">
+      <div class="card-header">
+        <h6 class="m-0"><i class="bi bi-table me-2"></i>All License</h6>
+        <span class="badge bg-primary" id="restaurantCount">Loading...</span>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0" id="restaurantsTable">
+            <thead>
+              <tr>
+                <th style="width: 90px;">ID</th>
+                <th>License</th>
+                <th>Subdomain</th>
+                <th style="width: 160px;">License Expiry</th>
+                <th style="width: 120px;">Status</th>
+                <th>Owner Email</th>
+                <th style="width: 220px;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="7" class="text-center py-5">
+                  <div class="loading-spinner text-primary"></div>
+                  <div class="mt-2">Loading License...</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Edit Restaurant Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Restaurant</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm">
+          <div class="mb-3">
+            <label for="editName" class="form-label">Restaurant Name</label>
+            <input type="text" class="form-control" id="editName" name="name" required>
+          </div>
+          <div class="mb-3">
+            <label for="editAddress" class="form-label">Address</label>
+            <textarea class="form-control" id="editAddress" name="address" rows="2"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="editSubdomain" class="form-label">Subdomain</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="editSubdomain" name="subdomain" required>
+              <span class="input-group-text">.yourdomain.com</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="editEmail" class="form-label">Owner Email</label>
+            <input type="email" class="form-control" id="editEmail" name="owner_email">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="saveChangesBtn">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+  <script type="module">
+    import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, collection, getDocs, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDhIAwkU0YTIPqHCnZaS8q-yyDCP8CktL0",
+      authDomain: "tecxua-a22c9.firebaseapp.com",
+      projectId: "tecxua-a22c9",
+      storageBucket: "tecxua-a22c9.appspot.com",
+      messagingSenderId: "242362635527",
+      appId: "1:242362635527:web:179a57cf5a43bf8d77e1a2",
+      measurementId: "G-VXJR3QW5J3"
+    };
+
+    // Initialize Firebase
+    const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // DOM Elements
+    const alertEl = document.getElementById('alert');
+    const tbody = document.querySelector('#restaurantsTable tbody');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const restaurantCount = document.getElementById('restaurantCount');
+    const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+    const editForm = document.getElementById('editForm');
+    const saveChangesBtn = document.getElementById('saveChangesBtn');
+
+    // Current restaurant being edited
+    let currentRestaurantId = null;
+
+    // Show alert function
+    function showAlert(type, message) {
+      alertEl.innerHTML = `
+        <div class="d-flex align-items-center">
+          <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 
+                         type === 'danger' ? 'bi-exclamation-triangle-fill' : 
+                         type === 'warning' ? 'bi-exclamation-circle-fill' : 
+                         'bi-info-circle-fill'} me-2"></i>
+          ${message}
+        </div>
+      `;
+      alertEl.className = `alert alert-${type}`;
+      alertEl.classList.remove('d-none');
+      
+      setTimeout(() => {
+        alertEl.classList.add('fade');
+        setTimeout(() => alertEl.classList.add('d-none'), 150);
+      }, 5000);
+    }
+
+    // Check authentication and role
+    onAuthStateChanged(auth, async user => {
+      if (!user) {
+        location.href = "login/";
+        return;
+      }
+
+      try {
+        const roleDoc = await getDoc(doc(db, "roles", user.uid));
+        if (!roleDoc.exists() || roleDoc.data().role !== 'superadmin') {
+          showAlert('danger', 'Access denied. Please login with a superadmin account.');
+          await signOut(auth);
+          setTimeout(() => location.href = "login/", 2000);
+          return;
+        }
+        loadRestaurants();
+      } catch (error) {
+        showAlert('danger', 'Failed to verify user role.');
+        console.error('Role check error:', error);
+      }
+    });
+
+    // Logout button
+    logoutBtn.addEventListener('click', async () => {
+      try {
+        await signOut(auth);
+        location.href = 'login/';
+      } catch (error) {
+        showAlert('danger', 'Logout failed. Please try again.');
+      }
+    });
+
+    // Event delegation for table buttons
+    document.getElementById('restaurantsTable').addEventListener('click', async (e) => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      
+      const row = btn.closest('tr');
+      const id = row.dataset.id;
+      
+      if (btn.classList.contains('btn-info')) {
+        viewDetails(id);
+      } else if (btn.classList.contains('btn-primary')) {
+        editRestaurant(id);
+      } else if (btn.classList.contains('btn-warning')) {
+        await resetLicense(id);
+      } else if (btn.classList.contains('btn-danger') || btn.classList.contains('btn-success')) {
+        const currentStatus = row.dataset.status;
+        await toggleStatus(id, currentStatus);
+      }
+    });
+
+    // Save changes in modal
+    saveChangesBtn.addEventListener('click', async () => {
+      if (!currentRestaurantId) return;
+      
+      try {
+        const formData = new FormData(editForm);
+        const updates = {
+          name: formData.get('name'),
+          address: formData.get('address'),
+          subdomain: formData.get('subdomain'),
+          owner_email: formData.get('owner_email')
+        };
+        
+        const restaurantRef = doc(db, 'restaurants', currentRestaurantId);
+        await updateDoc(restaurantRef, updates);
+        
+        showAlert('success', 'Restaurant updated successfully.');
+        editModal.hide();
+        loadRestaurants();
+      } catch (error) {
+        console.error('Error updating restaurant:', error);
+        showAlert('danger', 'Failed to update restaurant.');
+      }
+    });
+
+    // Load restaurants from Firestore
+    async function loadRestaurants() {
+      try {
+        const restaurantsSnapshot = await getDocs(collection(db, "restaurants"));
+        const restaurants = restaurantsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        restaurants.sort((a, b) => (a.client_id || 0) - (b.client_id || 0));
+        
+        // Update restaurant count
+        restaurantCount.textContent = `${restaurants.length} Restaurants`;
+        
+        if (restaurants.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="7" class="text-center py-5 text-muted">
+                <i class="bi bi-info-circle fs-4 d-block mb-2"></i>
+                No restaurants found. Add your first restaurant to get started.
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        renderRestaurants(restaurants);
+      } catch (error) {
+        console.error('Error loading restaurants:', error);
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="text-center py-5 text-danger">
+              <i class="bi bi-exclamation-triangle fs-4 d-block mb-2"></i>
+              Failed to load restaurants. Please try again.
+            </td>
+          </tr>
+        `;
+        showAlert('danger', 'Failed to load restaurants');
+      }
+    }
+
+    // Render restaurants
+    function renderRestaurants(restaurants) {
+      tbody.innerHTML = '';
+      
+      restaurants.forEach(r => {
+        const licenseExpiryText = r.license_expiry ? new Date(r.license_expiry).toLocaleDateString() : '-';
+        const isLicenseExpired = r.license_expiry && new Date(r.license_expiry) < new Date();
+        const statusBadgeColor = r.status && r.status.toLowerCase() === 'active' ? 'success' : 'secondary';
+        const statusText = r.status || 'Inactive';
+        
+        const tr = document.createElement('tr');
+        tr.dataset.id = r.id;
+        tr.dataset.status = statusText;
+        tr.innerHTML = `
+          <td class="fw-bold">${r.client_id ?? '-'}</td>
+          <td>
+            <div class="d-flex align-items-center">
+              <div class="restaurant-avatar">
+                ${r.name ? r.name.charAt(0).toUpperCase() : 'R'}
+              </div>
+              <div>
+                <div class="fw-semibold">${escapeHTML(r.name)}</div>
+                <div class="small text-muted">${escapeHTML(r.address || '')}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="badge bg-light text-dark">
+              ${escapeHTML(r.subdomain)}.yourdomain.com
+            </span>
+          </td>
+          <td>
+            <div class="license-status">
+              <span class="status-indicator ${isLicenseExpired ? 'status-expired' : 'status-valid'}"></span>
+              ${licenseExpiryText}
+            </div>
+          </td>
+          <td>
+            <span class="badge bg-${statusBadgeColor}">
+              ${escapeHTML(statusText)}
+            </span>
+          </td>
+          <td>
+            <a href="mailto:${escapeHTML(r.owner_email ?? '')}" class="text-primary">
+              ${escapeHTML(r.owner_email ?? '-')}
+            </a>
+          </td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn btn-sm btn-info" title="View Details">
+                <i class="bi bi-eye"></i>
+              </button>
+              <button class="btn btn-sm btn-primary" title="Edit">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn btn-sm btn-warning" title="Reset License">
+                <i class="bi bi-arrow-clockwise"></i>
+              </button>
+              <button class="btn btn-sm ${statusText === 'Active' ? 'btn-danger' : 'btn-success'}" title="${statusText === 'Active' ? 'Deactivate' : 'Activate'}">
+                <i class="bi ${statusText === 'Active' ? 'bi-pause' : 'bi-play'}"></i>
+              </button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Restaurant actions
+    async function resetLicense(id) {
+      if (!confirm('Are you sure you want to reset the license expiry to 30 days from now?')) return;
+      try {
+        const restaurantRef = doc(db, 'restaurants', id);
+        const newExpiry = new Date();
+        newExpiry.setDate(newExpiry.getDate() + 30);
+        await updateDoc(restaurantRef, { license_expiry: newExpiry.toISOString() });
+        showAlert('success', 'License expiry reset successfully.');
+        loadRestaurants();
+      } catch (error) {
+        console.error('Error resetting license:', error);
+        showAlert('danger', 'Failed to reset license expiry.');
+      }
+    }
+
+    async function toggleStatus(id, currentStatus) {
+      try {
+        const restaurantRef = doc(db, 'restaurants', id);
+        const newStatus = (currentStatus.toLowerCase() === 'active') ? 'Inactive' : 'Active';
+        await updateDoc(restaurantRef, { status: newStatus });
+        showAlert('success', `Restaurant status set to ${newStatus}.`);
+        loadRestaurants();
+      } catch (error) {
+        console.error('Error toggling status:', error);
+        showAlert('danger', 'Failed to update status.');
+      }
+    }
+
+    function viewDetails(id) {
+      window.location.href = `restaurant-details.html?id=${id}`;
+    }
+
+    async function editRestaurant(id) {
+      try {
+        const restaurantDoc = await getDoc(doc(db, 'restaurants', id));
+        if (!restaurantDoc.exists()) {
+          showAlert('danger', 'Restaurant not found.');
+          return;
+        }
+        
+        const restaurant = restaurantDoc.data();
+        currentRestaurantId = id;
+        
+        // Fill the form with current data
+        document.getElementById('editName').value = restaurant.name || '';
+        document.getElementById('editAddress').value = restaurant.address || '';
+        document.getElementById('editSubdomain').value = restaurant.subdomain || '';
+        document.getElementById('editEmail').value = restaurant.owner_email || '';
+        
+        // Show the modal
+        editModal.show();
+      } catch (error) {
+        console.error('Error loading restaurant:', error);
+        showAlert('danger', 'Failed to load restaurant details.');
+      }
+    }
+
+    function escapeHTML(text) {
+      if (!text) return '';
+      return text.toString()
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+    }
+</script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
