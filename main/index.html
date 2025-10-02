@@ -459,7 +459,7 @@
     logoutBtn.addEventListener('click', async () => {
       try {
         await signOut(auth);
-        location.href = 'login/';
+        location.href = 'super-admin/';
       } catch (error) {
         showAlert('danger', 'Logout failed. Please try again.');
       }
